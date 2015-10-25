@@ -8,7 +8,8 @@
   :source-control (:git "")
   :depends-on (:uiop
                :trivial-download
-               :ironclad)
+               :ironclad
+               :yason)
   :components ((:module "src"
                 :serial t
                 :components
