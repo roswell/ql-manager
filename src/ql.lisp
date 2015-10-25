@@ -116,7 +116,7 @@
                           :direction :output
                           :if-exists :supersede
                           :if-does-not-exist :create)
-    (yason:with-output (stream :ident t)
+    (yason:with-output (stream :indent t)
       (yason:with-object ()
         (yason:with-object-element ("installs")
           (yason:with-array ()
