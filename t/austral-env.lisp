@@ -21,10 +21,14 @@
   (let ((manager (make-instance 'austral-env.ql:quicklisp-manager
                                 :directory +directory+)))
     ;; Save and restore an empty database
+    (is-false
+     (probe-file (austral-env.ql:database-path manager)))
     (finishes
       (austral-env.ql:write-db manager))
     (finishes
-      (austral-env.ql:load-db manager))))
+      (austral-env.ql:load-db manager))
+    (is-true
+     (probe-file (austral-env.ql:database-path manager)))))
 
 (defun run-tests ()
   (run! 'tests)
