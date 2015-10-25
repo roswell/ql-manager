@@ -48,14 +48,6 @@
 
 ;;; Classes
 
-(defclass quicklisp-manager ()
-  ((directory :reader manager-directory
-              :initarg :directory
-              :type pathname
-              :documentation "The directory where Quicklisp installations are
-              stored."))
-  (:documentation "A Quicklisp manager is an object that manager installations."))
-
 (defclass install ()
   ((name :reader install-name
          :initarg :name
@@ -67,6 +59,19 @@
               :documentation "The directory where the Quicklisp install is
               to be stored stored."))
   (:documentation "A Quicklisp install."))
+
+(defclass quicklisp-manager ()
+  ((directory :reader manager-directory
+              :initarg :directory
+              :type pathname
+              :documentation "The directory where Quicklisp installations are
+              stored.")
+   (installs :reader manager-installs
+             :initarg :installs
+             :initform (list)
+             :type list
+             :documentation "A list of Quicklisp installations."))
+  (:documentation "A Quicklisp manager is an object that manager installations."))
 
 ;;; Simple methods
 
