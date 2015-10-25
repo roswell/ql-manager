@@ -15,6 +15,7 @@
   (:export :installer-path
            :download-quicklisp-installer
            :verify-quicklisp-installer
+           :database-path
            :write-db
            :load-db)
   (:documentation "Quicklisp installation manager."))
