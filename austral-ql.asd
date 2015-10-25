@@ -1,4 +1,4 @@
-(defsystem austral-env
+(defsystem austral-ql
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :maintainer "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "MIT"
@@ -14,8 +14,8 @@
                 :serial t
                 :components
                 ((:file "ql"))))
-  :description "An implementation & Quicklisp installation manager for Austral."
+  :description "A Quicklisp installation manager for Austral."
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  :in-order-to ((test-op (test-op austral-env-test))))
+  :in-order-to ((test-op (test-op austral-ql-test))))

@@ -1,9 +1,9 @@
-(defsystem austral-env-test
+(defsystem austral-ql-test
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "MIT"
-  :depends-on (:austral-env
+  :depends-on (:austral-ql
                :fiveam)
   :components ((:module "t"
                 :serial t
                 :components
-                ((:file "austral-env")))))
+                ((:file "ql")))))
