@@ -15,7 +15,9 @@
   (let ((manager (make-instance 'austral-env.ql:quicklisp-manager
                                 :directory +directory+)))
     (finishes
-     (austral-env.ql:download-quicklisp-installer manager))))
+      (austral-env.ql:download-quicklisp-installer manager))))
 
 (defun run-tests ()
-  (run! 'tests))
+  (run! 'tests)
+  (when (probe-file +directory+)
+    (uiop:delete-directory-tree +directory+ :validate t)))
