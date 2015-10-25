@@ -13,7 +13,10 @@
            :install-directory)
   ;; Methods
   (:export :installer-path
-           :download-quicklisp-installer)
+           :download-quicklisp-installer
+           :verify-quicklisp-installer
+           :write-db
+           :load-db)
   (:documentation "Quicklisp installation manager."))
 (in-package :austral-env.ql)
 
@@ -99,6 +102,43 @@
     (if (string= +ql-installer-sha256+ hash)
         t
         (error 'verification-failed :hash hash))))
+
+;;; Storage
+
+(defmethod database-path ((man quicklisp-manager))
+  "Return the path to the database file."
+  (merge-pathnames #p"manager.json"
+                   (manager-directory man)))
+
+(defmethod write-db ((man quicklisp-manager))
+  "Write the database of installs to the database file."
+  (with-open-file (stream (database-path man)
+                          :direction :output
+                          :if-exists :supersede
+                          :if-does-not-exist :create)
+    (yason:with-output (stream :ident t)
+      (yason:with-object ()
+        (yason:with-object-element ("installs")
+          (yason:with-array ()
+            (loop for install in (manager-installs man) do
+              (yason:with-object ()
+                (yason:Encode-object-elements
+                 "name" (install-name install)
+                 "directory" (namestring (install-directory install))))))))))
+  man)
+
+(defmethod load-db ((man quicklisp-manager))
+  "Load the stored data for this manager. This clears and overwrites the list of
+  Quicklisp installs."
+  (let ((data (yason:parse (database-path man))))
+    (setf (manager-installs man)
+          (mapcar #'(lambda (table)
+                      (make-instance 'install
+                                     :name (gethash "name" table)
+                                     :directory (parse-namestring
+                                                 (gethash "directory" table))))
+                  (gethash "installs" data))))
+  man)
 
 ;;; Logging
 
