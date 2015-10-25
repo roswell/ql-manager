@@ -69,7 +69,7 @@
               :type pathname
               :documentation "The directory where Quicklisp installations are
               stored.")
-   (installs :reader manager-installs
+   (installs :accessor manager-installs
              :initarg :installs
              :initform (list)
              :type list
