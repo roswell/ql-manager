@@ -12,13 +12,13 @@
   (asdf:system-relative-pathname :austral-ql #p"t/ql/"))
 
 (test get-installer
-  (let ((manager (make-instance 'austral-ql:quicklisp-manager
+  (let ((manager (make-instance 'austral-ql:manager
                                 :directory +directory+)))
     (finishes
       (austral-ql:download-quicklisp-installer manager))))
 
 (test db
-  (let ((manager (make-instance 'austral-ql:quicklisp-manager
+  (let ((manager (make-instance 'austral-ql:manager
                                 :directory +directory+)))
     ;; Save and restore an empty database
     (is-false

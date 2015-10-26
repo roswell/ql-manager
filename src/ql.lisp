@@ -6,7 +6,7 @@
            :+ql-installer-sha256+
            :+ql-installer-path+)
   ;; Classes and accessors
-  (:export :quicklisp-manager
+  (:export :manager
            :manager-directory
            :install
            :install-name
@@ -64,7 +64,7 @@
               to be stored stored."))
   (:documentation "A Quicklisp install."))
 
-(defclass quicklisp-manager ()
+(defclass manager ()
   ((directory :reader manager-directory
               :initarg :directory
               :type pathname
@@ -79,13 +79,13 @@
 
 ;;; Simple methods
 
-(defmethod installer-path ((man quicklisp-manager))
+(defmethod installer-path ((man manager))
   "Return the absolute path to the Quicklisp installer."
   (merge-pathnames +ql-installer-path+ (manager-directory man)))
 
 ;;; Download Quicklisp installer
 
-(defmethod download-quicklisp-installer ((man quicklisp-manager))
+(defmethod download-quicklisp-installer ((man manager))
   "Ensure the Quicklisp installer has been downloaded."
   (trivial-download:download +ql-installer-url+ (installer-path man))
   (verify-quicklisp-installer man)
@@ -97,7 +97,7 @@
   (ironclad:byte-array-to-hex-string
    (ironclad:digest-sequence :sha256 (ironclad:ascii-string-to-byte-array string))))
 
-(defmethod verify-quicklisp-installer ((man quicklisp-manager))
+(defmethod verify-quicklisp-installer ((man manager))
   "Verify the Quicklisp installer has the proper hash."
   (let ((hash (sha256 (uiop:read-file-string (installer-path man)))))
     (if (string= +ql-installer-sha256+ hash)
@@ -106,12 +106,12 @@
 
 ;;; Storage
 
-(defmethod database-path ((man quicklisp-manager))
+(defmethod database-path ((man manager))
   "Return the path to the database file."
   (merge-pathnames #p"manager.json"
                    (manager-directory man)))
 
-(defmethod write-db ((man quicklisp-manager))
+(defmethod write-db ((man manager))
   "Write the database of installs to the database file."
   (with-open-file (stream (database-path man)
                           :direction :output
@@ -128,7 +128,7 @@
                  "directory" (namestring (install-directory install))))))))))
   man)
 
-(defmethod load-db ((man quicklisp-manager))
+(defmethod load-db ((man manager))
   "Load the stored data for this manager. This clears and overwrites the list of
   Quicklisp installs."
   (let ((data (yason:parse (database-path man))))
@@ -143,8 +143,8 @@
 
 ;;; Logging
 
-(defmethod download-quicklisp-installer :before ((man quicklisp-manager))
+(defmethod download-quicklisp-installer :before ((man manager))
   (format t "~%Downloading the Quicklisp installer..."))
 
-(defmethod verify-quicklisp-installer :before ((man quicklisp-manager))
+(defmethod verify-quicklisp-installer :before ((man manager))
   (format t "~%Verifying installer..."))
