@@ -1,34 +1,34 @@
 (in-package :cl-user)
-(defpackage austral-ql-test
+(defpackage ql-manager-test
   (:use :cl :fiveam)
   (:export :run-tests))
-(in-package :austral-ql-test)
+(in-package :ql-manager-test)
 
 (def-suite tests
-  :description "austral-ql tests.")
+  :description "ql-manager tests.")
 (in-suite tests)
 
 (defparameter +directory+
-  (asdf:system-relative-pathname :austral-ql #p"t/ql/"))
+  (asdf:system-relative-pathname :ql-manager #p"t/ql/"))
 
 (test get-installer
-  (let ((manager (make-instance 'austral-ql:manager
+  (let ((manager (make-instance 'ql-manager:manager
                                 :directory +directory+)))
     (finishes
-      (austral-ql:download-quicklisp-installer manager))))
+      (ql-manager:download-quicklisp-installer manager))))
 
 (test db
-  (let ((manager (make-instance 'austral-ql:manager
+  (let ((manager (make-instance 'ql-manager:manager
                                 :directory +directory+)))
     ;; Save and restore an empty database
     (is-false
-     (probe-file (austral-ql:database-path manager)))
+     (probe-file (ql-manager:database-path manager)))
     (finishes
-      (austral-ql:write-db manager))
+      (ql-manager:write-db manager))
     (finishes
-      (austral-ql:load-db manager))
+      (ql-manager:load-db manager))
     (is-true
-     (probe-file (austral-ql:database-path manager)))))
+     (probe-file (ql-manager:database-path manager)))))
 
 (defun run-tests ()
   (run! 'tests)
