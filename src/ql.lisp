@@ -1,5 +1,5 @@
 (in-package :cl-user)
-(defpackage austral-ql
+(defpackage ql-manager
   (:use :cl)
   ;; Constants
   (:export :+ql-installer-url+
@@ -19,7 +19,7 @@
            :write-db
            :load-db)
   (:documentation "Quicklisp installation manager."))
-(in-package :austral-ql)
+(in-package :ql-manager)
 
 ;;; Constants
 
