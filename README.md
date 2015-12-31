@@ -8,6 +8,10 @@ This is a tiny library for downloading and managing multiple Quicklisp
 installations. It's a pretty flexible library, and as such, doesn't do certain
 things like installing those QL setups, but you can easily extend it to do that.
 
+ql-manager downloads the Quicklisp installer to a directory, then you can use it
+to install Quicklisp environments into subdirectories, and record those installs
+in a database.
+
 # Usage
 
 ```lisp
