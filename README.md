@@ -1,5 +1,7 @@
 # ql-manager
 
+[![Build Status](https://travis-ci.org/roswell/ql-manager.svg?branch=master)](https://travis-ci.org/roswell/ql-manager)
+
 A Quicklisp environment manager.
 
 # Overview
